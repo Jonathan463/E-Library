@@ -4,7 +4,7 @@ import model.Person;
 import services.LibraryServiceImpl;
 
 public class App {
-    public static void main(String [] args){
+    public static void main(String [] args) throws Exception {
 
         Books book1 = new Books("Physics");
         Books book2 = new Books("Biology");
@@ -12,8 +12,8 @@ public class App {
 
         LibraryServiceImpl lib = new LibraryServiceImpl();
         lib.stackBook(book1,1);
-        lib.stackBook(book2,2);
-        lib.stackBook(book2,2);
+        lib.stackBook(book2,1);
+        //lib.stackBook(book2,2);
 
 
 
@@ -27,6 +27,9 @@ public class App {
         lib.joinQueue(teacher);
         lib.borrowBookOnPriority(student,"Biology");
         lib.borrowBookOnPriority(teacher,"Biology");
+
+//        lib.borrowBookOnFIFO(student,"Biology");
+//        lib.borrowBookOnFIFO(teacher,"Biology");
 
 //        lib.borrowBookOnFIFO(student,"Physics");
 //        lib.borrowBookOnFIFO(teacher,"Physics");

@@ -66,38 +66,62 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public void borrowBookOnPriority(Person person,String book) {
+    public void borrowBookOnPriority(Person person,String book) throws Exception {
 
          String whoToGetBook = priorityQueue.remove().getName();
+         if(!this.getBookList().isEmpty()){
+             if(this.getBookList().containsKey(new Books(book))){
+                 int currentBookCount = this.getBookList().get(new Books(book));
+                 this.getBookList().put(new Books(book), currentBookCount - 1);
+                 // System.out.println(currentBookCount);
+                 if(currentBookCount == 0) {
+                     System.out.println(whoToGetBook +" The Book YOu Request For IS Not Available");
+                 }
+                 // System.out.println(currentBookCount);
 
-        if(this.getBookList().containsKey(new Books(book))){
-            int currentBookCount = this.getBookList().get(new Books(book));
-            // System.out.println(currentBookCount);
-            if(currentBookCount == 0) {
-                System.out.println(whoToGetBook +" The Book YOu Request For IS Not Available");
-            }
-            // System.out.println(currentBookCount);
 
-                this.getBookList().put(new Books(book), currentBookCount - 1);
-            System.out.println( whoToGetBook + " Has Succesfully Borrowed " + book + " Book.");
+                 else {
+                     System.out.println(whoToGetBook + " Has Succesfully Borrowed " + book + " Book.");
+                 }
+             }
+         }
 
-        }
+         else{
+             throw new Exception("There is no Book in the library");
+         }
 
-    }
-    public void borrowBookOnFIFO(Person person, String bookName){
 
-        String whoToGetBook = personQueue.remove().getName();
-        if(this.getBookList().containsKey(new Books(bookName))){
-            int currentBookCount = this.getBookList().get(new Books(bookName));
-            // System.out.println(currentBookCount);
-            if(currentBookCount == 0) {
-                System.out.println(whoToGetBook +" The Book YOu Request For IS Not Available");
-            }
-            // System.out.println(currentBookCount);
-
-            this.getBookList().put(new Books(bookName), currentBookCount - 1);
-            System.out.println(whoToGetBook + " Has Succesfully Borrowed " + bookName + " Book.");
 
         }
+
+
+        @Override
+    public void borrowBookOnFIFO(Person person, String bookName) throws Exception {
+
+            if(!this.getBookList().isEmpty()){
+
+                String whoToGetBook = personQueue.remove().getName();
+                if(this.getBookList().containsKey(new Books(bookName))){
+                    int currentBookCount = this.getBookList().get(new Books(bookName));
+                    this.getBookList().put(new Books(bookName), currentBookCount - 1);
+                    // System.out.println(currentBookCount);
+                    if(currentBookCount == 0) {
+                        System.out.println(whoToGetBook +" The Book You Request For Is Not Available");
+                    }
+                    // System.out.println(currentBookCount);
+
+
+                    else{
+                        System.out.println(whoToGetBook + " Has Succesfully Borrowed " + bookName + " Book.");
+                    }
+
+                }
+            }
+
+            else{
+                throw new Exception("There is no Book in the library");
+            }
+
+
     }
 }
